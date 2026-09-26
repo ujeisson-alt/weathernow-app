@@ -5,7 +5,7 @@ Muestra el clima actual y el pronóstico de 5 días de cualquier ciudad del mund
 
 ## Demo en vivo
 
-🔗 **[https://weathernow-app.vercel.app](https://weathernow-app.vercel.app)** <!-- Reemplazá con tu URL real de Vercel -->
+🔗 **[https://weathernow-app-beta.vercel.app](https://weathernow-app-beta.vercel.app)**
 
 <!-- Cuando tengas el deploy, agregá una captura: ![WeatherNow](./docs/screenshot.png) -->
 
