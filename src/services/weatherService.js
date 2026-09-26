@@ -1,34 +1,25 @@
 /**
  * weatherService.js
- * Capa de acceso a datos: centraliza todas las llamadas a la API de OpenWeatherMap.
- * Los componentes nunca llaman a fetch directamente; usan estas funciones.
+ * Capa de acceso a datos: centraliza todas las llamadas del clima.
+ * El navegador llama a /api/weather (función serverless propia), que a su vez
+ * consulta OpenWeatherMap. Así la API Key nunca queda expuesta en el frontend.
  */
 
-const BASE_URL = 'https://api.openweathermap.org/data/2.5';
-const API_KEY = import.meta.env.VITE_WEATHER_API_KEY;
+const API_URL = '/api/weather';
 
 /**
- * Hace la petición a un endpoint de OpenWeatherMap y traduce los errores HTTP
+ * Hace la petición al proxy /api/weather y traduce los errores HTTP
  * a mensajes claros para el usuario.
  * @param {'weather'|'forecast'} endpoint
  * @param {string} city
  * @param {AbortSignal} [signal]
  */
 async function request(endpoint, city, signal) {
-  if (!API_KEY) {
-    throw new Error('Falta la API Key. Creá el archivo .env con VITE_WEATHER_API_KEY.');
-  }
-
-  const params = new URLSearchParams({
-    q: city.trim(),
-    appid: API_KEY,
-    units: 'metric',
-    lang: 'es',
-  });
+  const params = new URLSearchParams({ endpoint, q: city.trim() });
 
   let response;
   try {
-    response = await fetch(`${BASE_URL}/${endpoint}?${params}`, { signal });
+    response = await fetch(`${API_URL}?${params}`, { signal });
   } catch (err) {
     if (err.name === 'AbortError') throw err;
     throw new Error('Sin conexión. Revisá tu internet e intentá de nuevo.');
@@ -42,6 +33,8 @@ async function request(endpoint, city, signal) {
         throw new Error('API Key inválida o aún no activada. Revisá la configuración.');
       case 429:
         throw new Error('Demasiadas búsquedas seguidas. Esperá un minuto e intentá de nuevo.');
+      case 500:
+        throw new Error('El servidor no tiene configurada la API Key. Revisá WEATHER_API_KEY.');
       default:
         throw new Error('Error al obtener el clima. Intentá más tarde.');
     }
