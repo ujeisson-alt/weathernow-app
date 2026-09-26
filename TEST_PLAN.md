@@ -53,6 +53,17 @@ Resultado: ✅ Pasa · ❌ Falla · ⏳ Pendiente
 | CP-23 | Lighthouse (DevTools) | Performance ≥ 80, Accessibility ≥ 80 | ✅ 100 / 100 / 100 / 100 (Perf, A11y, Best Practices, SEO) tras BUG-07 |
 | CP-24 | Validador W3C | `index.html` sin errores de conformidad | ✅ (html-validate; confirmar en validator.w3.org tras el deploy) |
 
+## 4b. Seguridad del proxy `/api/weather`
+
+| ID | Caso | Resultado esperado | Resultado |
+|---|---|---|---|
+| SEC-01 | Buscar la API Key en el bundle (`dist/assets/*.js`) | No aparece | ✅ |
+| SEC-02 | `endpoint` distinto de `weather`/`forecast` | 400 "Endpoint inválido" | ✅ |
+| SEC-03 | Ciudad de 1 carácter o > 60 | 400 "Ciudad inválida" | ✅ |
+| SEC-04 | Servidor sin `WEATHER_API_KEY` | 500 y mensaje claro en la UI | ✅ |
+| SEC-05 | Respuesta exitosa | La key no viaja en la respuesta; `Cache-Control: s-maxage=600` | ✅ |
+| SEC-06 | Error 404 de la API | Se propaga el 404 y **no** se cachea | ✅ |
+
 ## 5. Registro de bugs
 
 | ID | Descripción | Severidad | Causa | Corrección | Estado |
@@ -64,11 +75,12 @@ Resultado: ✅ Pasa · ❌ Falla · ⏳ Pendiente
 | BUG-05 | Ciudades con "&" o "#" rompían la URL | Baja | Query armada con template string | `URLSearchParams` | Cerrado |
 | BUG-06 | Durante la carga no se podía buscar otra ciudad (Enter y botón bloqueados) | Media | El botón `submit` deshabilitado bloquea también el envío con Enter | Quitar `disabled`, usar `aria-busy`; `AbortController` cancela la búsqueda vieja | Cerrado |
 | BUG-07 | Links del footer con contraste 4.09:1 (WCAG AA pide 4.5:1) | Baja | Azul primario sobre fondo celeste | Usar `--color-secondary` en los links | Cerrado |
+| BUG-08 | La API Key era visible en el JavaScript público (DevTools → Sources) | Alta | Vite incrusta en el bundle toda variable `VITE_` | Proxy serverless `api/weather.js`; la key pasa a `WEATHER_API_KEY` (Secret) | Cerrado |
 
 ## 6. Resumen de ejecución
 
-- **Casos ejecutados:** 25 · **Pasan:** 25 · **Bugs encontrados y cerrados:** 7
-- Ejecución con Playwright (Chromium) y respuestas de la API simuladas; repetir CP-02, CP-08 y CP-12 contra la API real tras el deploy.
+- **Casos ejecutados:** 31 · **Pasan:** 31 · **Bugs encontrados y cerrados:** 8
+- Ejecución con Playwright (Chromium) y respuestas de la API simuladas; CP-02, CP-08 y CP-12 verificados además contra la API real en producción (https://weathernow-app-beta.vercel.app).
 
 ## 7. Evidencias
 
