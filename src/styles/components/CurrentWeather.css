@@ -1,0 +1,65 @@
+.current-weather {
+  padding: var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
+  animation: fadeIn 0.3s ease-out;
+  overflow: hidden;
+}
+
+.current-weather__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--spacing-md);
+  flex-wrap: wrap;
+}
+
+.current-weather__header h2 { font-size: var(--font-size-xl); line-height: 1.2; }
+.current-weather__time { color: var(--color-text-light); font-size: var(--font-size-sm); }
+
+.btn-favorite {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  font-weight: 600;
+  transition: border-color 0.2s, background 0.2s;
+}
+.btn-favorite span { font-size: 1.2rem; line-height: 1; }
+.btn-favorite:hover { border-color: var(--color-star); }
+.btn-favorite.is-active { border-color: var(--color-star); background: rgba(249, 168, 37, 0.12); }
+.btn-favorite.is-active span { color: var(--color-star); }
+
+.current-weather__main {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  margin: var(--spacing-md) 0;
+}
+
+.current-weather__main img { width: 100px; height: 100px; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15)); }
+.current-weather__temp { font-size: 3.5rem; font-weight: 700; line-height: 1; }
+.current-weather__desc { color: var(--color-text-light); font-size: var(--font-size-lg); }
+
+/* Mobile: 2 columnas; desktop: 4 */
+.current-weather__details {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-sm);
+}
+
+.current-weather__details > div {
+  background: var(--color-bg);
+  border-radius: var(--border-radius-sm);
+  padding: var(--spacing-sm) var(--spacing-md);
+}
+.current-weather__details dt { font-size: var(--font-size-sm); color: var(--color-text-light); }
+.current-weather__details dd { font-size: var(--font-size-lg); font-weight: 600; }
+
+@media (min-width: 600px) {
+  .current-weather { padding: var(--spacing-xl); }
+  .current-weather__temp { font-size: 4.5rem; }
+  .current-weather__details { grid-template-columns: repeat(4, 1fr); }
+}

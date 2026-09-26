@@ -1,0 +1,33 @@
+.favorites-list { margin-bottom: var(--spacing-lg); }
+.favorites-list h3 {
+  font-size: var(--font-size-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-light);
+  margin-bottom: var(--spacing-sm);
+}
+
+.favorites-chips { display: flex; flex-wrap: wrap; gap: var(--spacing-sm); }
+
+.favorite-chip {
+  display: inline-flex;
+  align-items: center;
+  background: var(--color-card);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+.favorite-chip:hover,
+.favorite-chip.is-active { border-color: var(--color-primary); }
+
+.favorite-chip button { background: transparent; border: none; }
+.chip-label { padding: 6px 4px 6px 14px; font-weight: 600; }
+.chip-remove {
+  padding: 6px 12px 6px 8px;
+  font-size: 1.1rem;
+  line-height: 1;
+  color: var(--color-text-light);
+}
+.chip-remove:hover { color: var(--color-error); }

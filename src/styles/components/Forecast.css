@@ -1,0 +1,49 @@
+.forecast-list { animation: fadeIn 0.3s ease-out; }
+.forecast-list h3 { font-size: var(--font-size-lg); margin-bottom: var(--spacing-md); }
+
+/* Mobile first: 1 columna → tablet 3 → desktop 5 */
+.forecast-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-md);
+}
+
+/* En mobile la tarjeta es una fila horizontal para ahorrar altura */
+.forecast-card {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  grid-template-areas:
+    'date icon temps'
+    'desc icon pop';
+  align-items: center;
+  column-gap: var(--spacing-md);
+  padding: var(--spacing-sm) var(--spacing-md);
+  transition: transform 0.2s;
+}
+
+.forecast-card__date { grid-area: date; font-weight: 600; }
+.forecast-card img { grid-area: icon; width: 56px; height: 56px; }
+.forecast-card__desc { grid-area: desc; font-size: var(--font-size-sm); color: var(--color-text-light); }
+.forecast-card__temps { grid-area: temps; display: flex; gap: var(--spacing-sm); justify-content: flex-end; }
+.forecast-card__max { font-weight: 700; }
+.forecast-card__min { color: var(--color-text-light); }
+.forecast-card__pop { grid-area: pop; font-size: var(--font-size-sm); color: var(--color-text-light); text-align: right; }
+
+@media (min-width: 600px) {
+  .forecast-grid { grid-template-columns: repeat(3, 1fr); }
+  .forecast-card {
+    grid-template-columns: 1fr;
+    grid-template-areas: 'date' 'icon' 'desc' 'temps' 'pop';
+    justify-items: center;
+    text-align: center;
+    row-gap: var(--spacing-xs);
+    padding: var(--spacing-md);
+  }
+  .forecast-card img { width: 64px; height: 64px; }
+  .forecast-card__pop { text-align: center; }
+  .forecast-card:hover { transform: translateY(-4px); }
+}
+
+@media (min-width: 900px) {
+  .forecast-grid { grid-template-columns: repeat(5, 1fr); }
+}
